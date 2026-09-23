@@ -28,13 +28,31 @@ An optional, explicit [experimental source registry](docs/source-registry.md) su
 
 After `oca-gather collect`, use [gathered-store inspection](docs/gather-import.md) to verify the store, import supported objects, and build a local HTML site plus an Obsidian-style Markdown vault. The LLM skill is [inspect-gathered-sessions](skills/inspect-gathered-sessions/SKILL.md). Pi remains collection-only.
 
-## Gathered-store inspection
+## Review a gathered store
 
-`oca-gather` is a separate collector. Install it from
+`oca-gather` collects sessions. `oca-inspect` is the one-command local review
+server. Install the collector from
 [houseofpraxis/oca-gather](https://github.com/houseofpraxis/oca-gather).
-This repository verifies a gather store, imports supported objects into
-canonical archives, and builds a local HTML inspector plus an Obsidian-style
-Markdown vault.
+Download `oca-inspect` for your OS and architecture from
+[inspect-v0.1.0-experimental.1](https://github.com/houseofpraxis/open-chat-archive/releases/tag/inspect-v0.1.0-experimental.1),
+check it against `checksums.txt` in that release, and put it on `PATH`.
+
+```sh
+oca-inspect serve --store "$HOME/oca-gather-store"
+```
+
+Open the printed `http://127.0.0.1:8777/` address. The server binds to loopback
+only, does not modify the store, and does not claim a canonical import. The
+page contains conversation text; do not publish it. Pi sessions are shown as
+collection-only. See [inspect-server.md](docs/inspect-server.md).
+
+Checksums in the release detect download mismatch. They are not an independent
+publisher signature. The review binary is built from the private collector
+source because it reuses the store verifier; this repository publishes the
+binary, docs, and the separate Python canonical toolkit.
+
+Canonical import, static HTML, and the Markdown vault remain available. See
+[gathered-store inspection](docs/gather-import.md).
 
 See [gathered-store inspection](docs/gather-import.md) and the
 [inspect-gathered-sessions](skills/inspect-gathered-sessions/SKILL.md) skill.
