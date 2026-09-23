@@ -1,0 +1,12 @@
+* text=auto
+*.ndjson text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# Normative sensitive-data profile. Public wholly synthetic examples are exempt.
+/archives/**/sources/** filter=git-crypt diff=git-crypt
+/archives/**/batches/**/records.ndjson filter=git-crypt diff=git-crypt
+/archives/**/batches/**/manifest.json filter=git-crypt diff=git-crypt
+/archives/**/blobs/** filter=git-crypt diff=git-crypt
+/archives/**/import-manifests/** filter=git-crypt diff=git-crypt
+/examples/** !filter !diff

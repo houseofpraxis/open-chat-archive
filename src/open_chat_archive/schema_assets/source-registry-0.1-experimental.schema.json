@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://open-chat-archive.example/schema/source-registry-0.1-experimental",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registry_version", "sources", "bindings"],
+  "properties": {
+    "registry_version": {"const": "0.1-experimental"},
+    "sources": {"type": "array", "maxItems": 10000, "items": {"$ref": "#/$defs/source"}},
+    "bindings": {"type": "array", "maxItems": 10000, "items": {"$ref": "#/$defs/binding"}}
+  },
+  "$defs": {
+    "opaque": {"type": "string", "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$(?![\\s\\S])"},
+    "namespace": {"type": "string", "minLength": 1, "maxLength": 255, "pattern": "^(?:[A-Za-z][A-Za-z0-9+.-]*:[^ ]+|[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)+)$"},
+    "text": {"type": "string", "minLength": 1, "maxLength": 512},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_id", "adapter_namespace", "display_label", "status"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/opaque"},
+        "adapter_namespace": {"$ref": "#/$defs/namespace"},
+        "display_label": {"$ref": "#/$defs/text"},
+        "status": {"enum": ["unverified", "operator_confirmed", "ambiguous"]},
+        "account_identifier": {"$ref": "#/$defs/text"},
+        "instance_identifier": {"$ref": "#/$defs/text"},
+        "category": {"type": "string", "minLength": 1, "maxLength": 128}
+      },
+      "allOf": [{"if": {"properties": {"status": {"const": "operator_confirmed"}}}, "then": {"required": ["account_identifier", "instance_identifier"]}}]
+    },
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["archive_id", "adapter_namespace", "source_scope_id", "source_id"],
+      "properties": {
+        "archive_id": {"$ref": "#/$defs/opaque"},
+        "adapter_namespace": {"$ref": "#/$defs/namespace"},
+        "source_scope_id": {"$ref": "#/$defs/opaque"},
+        "source_id": {"$ref": "#/$defs/opaque"}
+      }
+    }
+  }
+}

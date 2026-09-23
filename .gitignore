@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+.coverage
+.pytest_cache/
+# Sensitive archives are intentionally not blanket-ignored: tracked data paths
+# must be encrypted by the attributes profile. Local staging remains ignored.
+/private/
+/scratch/
+/gitignored/
+*.key
+*.gpg
+# Local Go collector build outputs (never commit binaries or test binaries)
+/oca-gather
+*.test
+*.exe

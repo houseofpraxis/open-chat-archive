@@ -1,0 +1,19 @@
+{
+  "bindings": [
+    {
+      "adapter_namespace": "example.adapter",
+      "archive_id": "example-archive",
+      "source_id": "example-source",
+      "source_scope_id": "synthetic-scope"
+    }
+  ],
+  "registry_version": "0.1-experimental",
+  "sources": [
+    {
+      "adapter_namespace": "example.adapter",
+      "display_label": "Synthetic example source",
+      "source_id": "example-source",
+      "status": "unverified"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "adapter": {
+    "namespace": "org.open-chat-archive.synthetic",
+    "version": "0.1.0"
+  },
+  "archive_id": "example-minimal",
+  "batch_id": "batch-0001",
+  "blobs": [],
+  "created_at": "2026-09-02T00:00:00Z",
+  "profile": "batch-ndjson",
+  "records": {
+    "byte_digest": "sha256:be44825690a0adceb1f40debbe7219fa18fa266775d8c1b02949bbc94fd8b907",
+    "count": 8,
+    "path": "records.ndjson",
+    "size": 6675,
+    "type_counts": {
+      "import_batch": 1,
+      "message": 2,
+      "observation": 3,
+      "session": 1,
+      "source_artifact": 1
+    }
+  },
+  "sensitivity": "restricted-unclassified",
+  "sources": [
+    {
+      "byte_digest": "sha256:0ec8793848884e30481c7680bb02dbb24aec26e9f2543153abf2ddf3fef6434a",
+      "media_type": "application/json",
+      "path": "sources/object-0ec879384888",
+      "size": 200
+    }
+  ],
+  "spec_version": "0.1"
+}

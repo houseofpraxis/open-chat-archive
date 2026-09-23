@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://open-chat-archive.example/schema/manifest-0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec_version",
+    "profile",
+    "sensitivity",
+    "archive_id",
+    "batch_id",
+    "created_at",
+    "adapter",
+    "sources",
+    "blobs",
+    "records"
+  ],
+  "properties": {
+    "spec_version": {
+      "const": "0.1"
+    },
+    "profile": {
+      "const": "batch-ndjson"
+    },
+    "sensitivity": {
+      "const": "restricted-unclassified"
+    },
+    "archive_id": {
+      "$ref": "#/$defs/opaque"
+    },
+    "batch_id": {
+      "$ref": "#/$defs/opaque"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "namespace",
+        "version"
+      ],
+      "properties": {
+        "namespace": {
+          "$ref": "#/$defs/ns"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/file"
+      }
+    },
+    "blobs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/file"
+      }
+    },
+    "records": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "byte_digest",
+        "size",
+        "count",
+        "type_counts"
+      ],
+      "properties": {
+        "path": {
+          "const": "records.ndjson"
+        },
+        "byte_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "type_counts": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "opaque": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "ns": {
+      "type": "string",
+      "pattern": "^(?:[A-Za-z][A-Za-z0-9+.-]*:[^ ]+|[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)+)$"
+    },
+    "media": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "byte_digest",
+        "media_type",
+        "size"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^(?:sources|blobs)/[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "byte_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "media_type": {
+          "$ref": "#/$defs/media"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

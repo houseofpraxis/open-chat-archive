@@ -1,0 +1,1583 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://open-chat-archive.example/schema/record-0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec_version",
+    "record_type",
+    "entity_id",
+    "revision_id",
+    "sensitivity",
+    "identity",
+    "body"
+  ],
+  "properties": {
+    "spec_version": {
+      "const": "0.1"
+    },
+    "record_type": {
+      "enum": [
+        "source_artifact",
+        "import_batch",
+        "session",
+        "turn",
+        "message",
+        "event",
+        "span",
+        "artifact",
+        "relationship",
+        "revision",
+        "observation",
+        "proposal"
+      ]
+    },
+    "entity_id": {
+      "$ref": "#/$defs/digest"
+    },
+    "revision_id": {
+      "$ref": "#/$defs/digest"
+    },
+    "sensitivity": {
+      "const": "restricted-unclassified"
+    },
+    "identity": {
+      "$ref": "#/$defs/identity"
+    },
+    "body": {
+      "type": "object"
+    },
+    "extensions": {
+      "$ref": "#/$defs/extensions"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "source_artifact"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/source"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "import_batch"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/batch"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "observation"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/observation"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "proposal"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/proposal"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "message"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/message"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "session"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/session"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "turn"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/turn"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "relationship"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/relationship"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "revision"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/revision"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "event"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/event"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "span"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/span"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "record_type": {
+            "const": "artifact"
+          }
+        },
+        "required": [
+          "record_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "body": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "opaque": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^(?:[A-Za-z][A-Za-z0-9+.-]*:[^ ]+|[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)+)$"
+    },
+    "media": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9!#$&^_.+-]+/[A-Za-z0-9!#$&^_.+-]+$"
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archive_id",
+        "record_type",
+        "adapter_namespace",
+        "identity_scheme",
+        "identity_version",
+        "source_scope_id",
+        "logical_key"
+      ],
+      "properties": {
+        "archive_id": {
+          "$ref": "#/$defs/opaque"
+        },
+        "record_type": {
+          "enum": [
+            "source_artifact", "import_batch", "session", "turn", "message",
+            "event", "span", "artifact", "relationship", "revision",
+            "observation", "proposal"
+          ]
+        },
+        "adapter_namespace": {
+          "$ref": "#/$defs/namespace"
+        },
+        "identity_scheme": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]*$"
+        },
+        "identity_version": {
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]+)*$"
+        },
+        "source_scope_id": {
+          "$ref": "#/$defs/opaque"
+        },
+        "logical_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "fallback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "stability"
+          ],
+          "properties": {
+            "kind": {
+              "const": "artifact-local"
+            },
+            "stability": {
+              "const": "same-artifact-only"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"identity_scheme": {"const": "artifact-local"}}, "required": ["identity_scheme"]},
+          "then": {"required": ["fallback"]}
+        },
+        {
+          "if": {"required": ["fallback"]},
+          "then": {"properties": {"identity_scheme": {"const": "artifact-local"}}}
+        }
+      ]
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/namespace"
+      }
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "json_pointer": {
+          "type": "string",
+          "pattern": "^(?:|/(?:[^~/]|~[01])*)*$"
+        },
+        "jsonl_line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "markdown_lines": {
+          "$ref": "#/$defs/range1"
+        },
+        "byte_range": {
+          "$ref": "#/$defs/range0"
+        },
+        "source_record_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "range0": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "range1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "location"
+      ],
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "revision_id"
+      ],
+      "properties": {
+        "entity_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "revision_id": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_path",
+        "claim_basis"
+      ],
+      "properties": {
+        "field_path": {
+          "type": "string",
+          "pattern": "^/(?:body|extensions)(?:/(?:[^~/]|~[01])*)*$"
+        },
+        "claim_basis": {
+          "enum": [
+            "observed",
+            "parsed",
+            "user_asserted",
+            "context_supplied",
+            "model_inferred"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        },
+        "assertion_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proposal_id": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "claim_basis": {
+                "enum": [
+                  "observed",
+                  "parsed"
+                ]
+              }
+            },
+            "required": [
+              "claim_basis"
+            ]
+          },
+          "then": {
+            "required": [
+              "sources"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "claim_basis": {
+                "const": "model_inferred"
+              }
+            },
+            "required": [
+              "claim_basis"
+            ]
+          },
+          "then": {
+            "required": [
+              "proposal_id"
+            ]
+          }
+        }
+      ]
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject",
+        "bindings"
+      ],
+      "properties": {
+        "subject": {
+          "$ref": "#/$defs/subject"
+        },
+        "bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/binding"
+          }
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "at",
+        "approver_basis"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "approved",
+            "rejected"
+          ]
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "approver_basis": {
+          "enum": [
+            "user",
+            "authorized_reviewer"
+          ]
+        }
+      }
+    },
+    "proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject",
+        "field_path",
+        "proposed_value",
+        "basis",
+        "status",
+        "evidence"
+      ],
+      "properties": {
+        "subject": {
+          "$ref": "#/$defs/subject"
+        },
+        "field_path": {
+          "type": "string",
+          "pattern": "^/body(?:/|$)"
+        },
+        "proposed_value": {},
+        "basis": {
+          "enum": [
+            "parsed",
+            "user_asserted",
+            "context_supplied",
+            "model_inferred"
+          ]
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "approved",
+            "rejected",
+            "unresolved"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        },
+        "approval": {
+          "$ref": "#/$defs/approval"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "approved",
+                  "rejected"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "approval"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "pending",
+                  "unresolved"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "approval"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archive_id",
+        "byte_digest",
+        "media_type",
+        "size",
+        "storage_path",
+        "acquisition_method"
+      ],
+      "properties": {
+        "archive_id": {
+          "$ref": "#/$defs/opaque"
+        },
+        "byte_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "media_type": {
+          "$ref": "#/$defs/media"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "storage_path": {
+          "type": "string",
+          "pattern": "^sources/[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "acquisition_method": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "ledger": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "disposition",
+            "destinations"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^/(?:[^/]+/)*[^/]+$"
+            },
+            "disposition": {
+              "const": "mapped"
+            },
+            "destinations": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^/"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "disposition",
+            "preservation_target"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^/(?:[^/]+/)*[^/]+$"
+            },
+            "disposition": {
+              "const": "preserved"
+            },
+            "preservation_target": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "disposition",
+            "reason"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^/(?:[^/]+/)*[^/]+$"
+            },
+            "disposition": {
+              "const": "ignored"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archive_id",
+        "batch_id",
+        "adapter",
+        "format_fingerprint",
+        "profile_paths",
+        "coverage_ledger"
+      ],
+      "properties": {
+        "archive_id": {
+          "$ref": "#/$defs/opaque"
+        },
+        "batch_id": {
+          "$ref": "#/$defs/opaque"
+        },
+        "adapter": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "namespace",
+            "version"
+          ],
+          "properties": {
+            "namespace": {
+              "$ref": "#/$defs/namespace"
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "format_fingerprint": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"
+        },
+        "profile_paths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^/"
+          }
+        },
+        "coverage_ledger": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ledger"
+          }
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "model_name"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_revision": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "archive_id"
+      ],
+      "properties": {
+        "archive_id": {
+          "$ref": "#/$defs/opaque"
+        },
+        "title": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "thread_shape": {
+          "enum": [
+            "linear",
+            "tree",
+            "unknown"
+          ]
+        },
+        "active_message_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "model": {
+          "$ref": "#/$defs/model"
+        }
+      }
+    },
+    "turn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "source_ordinal"
+      ],
+      "properties": {
+        "session_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "source_ordinal": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_id",
+        "to_id",
+        "kind"
+      ],
+      "properties": {
+        "from_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "to_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "kind": {
+          "enum": [
+            "parent_child",
+            "branch",
+            "retry",
+            "regeneration",
+            "lineage",
+            "supersedes",
+            "correlates",
+            "equivalent"
+          ]
+        },
+        "sibling_index": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_id",
+        "from_revision_id",
+        "to_revision_id",
+        "basis"
+      ],
+      "properties": {
+        "entity_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "from_revision_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "to_revision_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "basis": {
+          "enum": [
+            "source_observed",
+            "import_correction",
+            "user_asserted",
+            "approved_proposal"
+          ]
+        }
+      }
+    },
+    "content": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "text"
+          ],
+          "properties": {
+            "type": {
+              "enum": [
+                "text",
+                "reasoning",
+                "code"
+              ]
+            },
+            "text": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "json"
+          ],
+          "properties": {
+            "type": {
+              "const": "json"
+            },
+            "json": {}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "artifact_id",
+            "media_type"
+          ],
+          "properties": {
+            "type": {
+              "enum": [
+                "image",
+                "audio",
+                "file",
+                "resource_ref"
+              ]
+            },
+            "artifact_id": {
+              "$ref": "#/$defs/digest"
+            },
+            "media_type": {
+              "$ref": "#/$defs/media"
+            }
+          }
+        }
+      ]
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "source_ordinal",
+        "role",
+        "visibility",
+        "content"
+      ],
+      "properties": {
+        "session_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "source_ordinal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "role": {
+          "enum": [
+            "user",
+            "assistant",
+            "system",
+            "developer",
+            "tool",
+            "unknown"
+          ]
+        },
+        "visibility": {
+          "enum": [
+            "user_visible",
+            "exported_reasoning",
+            "control",
+            "tool_traffic",
+            "unknown"
+          ]
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/content"
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "model": {
+          "$ref": "#/$defs/model"
+        }
+      }
+    },
+    "artifact_or_json": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "json"
+          ],
+          "properties": {
+            "json": {}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "artifact_id"
+          ],
+          "properties": {
+            "artifact_id": {
+              "$ref": "#/$defs/digest"
+            }
+          }
+        }
+      ]
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "output_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cache_read_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cache_write_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reasoning_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cost": {
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]+)?$"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "unknown_metrics": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/namespace"
+          }
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "session_id",
+        "source_ordinal",
+        "kind",
+        "payload"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "source_ordinal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "enum": [
+            "tool_invocation",
+            "tool_result",
+            "model_invocation",
+            "model_response",
+            "log",
+            "resource",
+            "usage",
+            "lifecycle"
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "span_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "message_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "payload": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "tool_invocation"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "tool_namespace",
+                  "tool_name",
+                  "call_id",
+                  "arguments"
+                ],
+                "properties": {
+                  "tool_namespace": {
+                    "$ref": "#/$defs/namespace"
+                  },
+                  "tool_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "call_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "arguments": {
+                    "$ref": "#/$defs/artifact_or_json"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "tool_result"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "call_id",
+                  "status"
+                ],
+                "properties": {
+                  "call_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "status": {
+                    "enum": [
+                      "ok",
+                      "error",
+                      "cancelled",
+                      "unknown"
+                    ]
+                  },
+                  "output": {
+                    "$ref": "#/$defs/artifact_or_json"
+                  },
+                  "error": {
+                    "$ref": "#/$defs/artifact_or_json"
+                  }
+                },
+                "anyOf": [
+                  {"required": ["output"]},
+                  {"required": ["error"]}
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "model_invocation",
+                  "model_response"
+                ]
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "provider",
+                  "model_name",
+                  "status"
+                ],
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "model_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "model_revision": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "status": {
+                    "enum": [
+                      "started",
+                      "completed",
+                      "error",
+                      "cancelled",
+                      "unknown"
+                    ]
+                  },
+                  "parameters": {
+                    "$ref": "#/$defs/artifact_or_json"
+                  },
+                  "request_refs": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/digest"
+                    }
+                  },
+                  "response_refs": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/digest"
+                    }
+                  },
+                  "finish_reason": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "log"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "artifact_id"
+                ],
+                "properties": {
+                  "artifact_id": {
+                    "$ref": "#/$defs/digest"
+                  },
+                  "level": {
+                    "type": "string"
+                  },
+                  "logger": {
+                    "type": "string"
+                  },
+                  "attributes": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "resource"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "artifact_id",
+                  "operation"
+                ],
+                "properties": {
+                  "artifact_id": {
+                    "$ref": "#/$defs/digest"
+                  },
+                  "operation": {
+                    "enum": [
+                      "read",
+                      "generated",
+                      "modified"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "usage"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/usage"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "lifecycle"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "started",
+                      "completed",
+                      "error",
+                      "cancelled",
+                      "unknown"
+                    ]
+                  },
+                  "detail": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "source_ordinal",
+        "name",
+        "status"
+      ],
+      "properties": {
+        "session_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "source_ordinal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "unset",
+            "ok",
+            "error",
+            "cancelled"
+          ]
+        },
+        "parent_span_id": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "byte_digest",
+        "media_type",
+        "size",
+        "storage_path"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "source",
+            "generated",
+            "read",
+            "log",
+            "blob"
+          ]
+        },
+        "byte_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "media_type": {
+          "$ref": "#/$defs/media"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "storage_path": {
+          "type": "string",
+          "pattern": "^(?:sources|blobs)/[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+        },
+        "source_reference": {
+          "$ref": "#/$defs/source_ref"
+        }
+      }
+    }
+  }
+}

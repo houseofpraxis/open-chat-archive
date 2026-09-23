@@ -1,0 +1,45 @@
+{
+  "adapter": {
+    "namespace": "org.open-chat-archive.synthetic",
+    "version": "0.1.0"
+  },
+  "archive_id": "example-rich",
+  "batch_id": "batch-0001",
+  "blobs": [
+    {
+      "byte_digest": "sha256:c8ac113fb322f964b880aad8e072fc53b039e0f29eea97533d5f23079b21212a",
+      "media_type": "text/plain",
+      "path": "blobs/object-c8ac113fb322",
+      "size": 19
+    }
+  ],
+  "created_at": "2026-09-02T00:00:00Z",
+  "profile": "batch-ndjson",
+  "records": {
+    "byte_digest": "sha256:e5a244cd9a4cf81e80ae26e3359d0a42ea060aefaf3070e9bd3a8735f56be9ef",
+    "count": 27,
+    "path": "records.ndjson",
+    "size": 23946,
+    "type_counts": {
+      "artifact": 1,
+      "event": 6,
+      "import_batch": 1,
+      "message": 2,
+      "observation": 12,
+      "proposal": 1,
+      "session": 1,
+      "source_artifact": 1,
+      "span": 2
+    }
+  },
+  "sensitivity": "restricted-unclassified",
+  "sources": [
+    {
+      "byte_digest": "sha256:f3b9ac5e68bcdeb5f8da6253d3101bf3cf2d4e72b106ae50f9d9a548a5758131",
+      "media_type": "application/json",
+      "path": "sources/object-f3b9ac5e68bc",
+      "size": 416
+    }
+  ],
+  "spec_version": "0.1"
+}

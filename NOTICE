@@ -1,0 +1,7 @@
+Open Chat Archive
+Copyright 2026 Open Chat Archive contributors
+
+Licensed under the Apache License 2.0. Before creation, the orchestrator reviewed
+MyChatArchive's public README, advertised feature set, AGPL license, and file-level
+structure, but not implementation bodies, tests, schemas, fixtures, or internal
+algorithms. The independently produced boundary is recorded in docs/clean-room.md.

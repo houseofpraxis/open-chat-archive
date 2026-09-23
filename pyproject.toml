@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "open-chat-archive"
+version = "0.1.0.dev0"
+description = "Portable, provenance-preserving chat archive Tier 1 tools"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [{name = "Open Chat Archive contributors"}]
+classifiers = ["Development Status :: 2 - Pre-Alpha", "License :: OSI Approved :: Apache Software License", "Programming Language :: Python :: 3"]
+dependencies = ["jsonschema[format]==4.26.0"]
+
+[project.scripts]
+open-chat-archive-profile = "open_chat_archive.shape_profile:main"
+open-chat-archive-validate = "open_chat_archive.validation:main"
+open-chat-archive-scaffold = "open_chat_archive.scaffold_adapter:main"
+open-chat-archive-import = "open_chat_archive.import_source:main"
+open-chat-archive-inspect = "open_chat_archive.inspect_site:main"
+open-chat-archive-sources = "open_chat_archive.source_registry:main"
+open-chat-archive-gather = "open_chat_archive.gather_import:main"
+open-chat-archive-from-gather = "open_chat_archive.pipeline:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"open_chat_archive.site_assets" = ["site.css", "site.js"]
+"open_chat_archive.schema_assets" = ["source-registry-0.1-experimental.schema.json", "v0.1/*.json"]
