@@ -34,7 +34,7 @@ After `oca-gather collect`, use [gathered-store inspection](docs/gather-import.m
 server. Install the collector from
 [houseofpraxis/oca-gather](https://github.com/houseofpraxis/oca-gather).
 Download `oca-inspect` for your OS and architecture from
-[inspect-v0.1.0-experimental.1](https://github.com/houseofpraxis/open-chat-archive/releases/tag/inspect-v0.1.0-experimental.1),
+[inspect-v0.1.0-experimental.2](https://github.com/houseofpraxis/open-chat-archive/releases/tag/inspect-v0.1.0-experimental.2),
 check it against `checksums.txt` in that release, and put it on `PATH`.
 
 ```sh
