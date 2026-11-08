@@ -20,6 +20,27 @@ PYTHONPATH=src python -m unittest discover -s tests -v
 
 See the [draft specification](docs/spec/v0.1/README.md), [clean-room record](docs/clean-room.md), [security controls](docs/spec/v0.1/security.md), and two skills. Deferred: ZIP profiling, a complete Markdown parser, advanced cross-source equivalence, and Tier 2 consumers.
 
+## Experimental evidence projection
+
+`open_chat_archive.evidence_projection.project_archive(path)` validates an OCA
+archive and returns the experimental `oca-evidence-v1` consumer projection.
+Every canonical envelope is retained with its exact batch occurrences,
+inspection-associated session IDs, user-visible text/code, and exact
+observation bindings. This Tier 2 view does not change Tier 1 schemas or IDs.
+
+The full projection contains restricted archive content. Write it only to an
+explicit local path; the CLI creates a private mode-0600 file and never prints
+projection content to stdout:
+
+```sh
+PYTHONPATH=src python -m open_chat_archive.evidence_projection ARCHIVE_ROOT --output /private/path/projection.json
+```
+
+Archive validation checks integrity and conformance. Projection runs only
+after that validation succeeds, then derives search text and citations while
+preserving the full canonical records. Neither operation modifies the source
+archive. See [evidence projection details](docs/evidence-projection.md).
+
 The initial explicit-format local adapters are [Claude.ai](docs/adapters/claude-ai.md), [Claude Code](docs/adapters/claude-code.md), [OpenWebUI](docs/adapters/open-webui.md), [Codex rollout JSONL](docs/adapters/codex.md), and [Grok Build updates.jsonl](docs/adapters/grok-build.md). Their documented mappings are synthetic baselines and are not claims of authorized real-export compatibility.
 
 The non-normative [experimental archive inspector](docs/inspector.md) builds local, owner-only static artifacts from canonical archives so the format can be reviewed as a consumer would use it. The [MVP plan](docs/inspector-mvp-plan.md) is the design record and does not expand the Tier 1 contract.

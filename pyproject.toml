@@ -22,6 +22,7 @@ open-chat-archive-inspect = "open_chat_archive.inspect_site:main"
 open-chat-archive-sources = "open_chat_archive.source_registry:main"
 open-chat-archive-gather = "open_chat_archive.gather_import:main"
 open-chat-archive-from-gather = "open_chat_archive.pipeline:main"
+open-chat-archive-evidence = "open_chat_archive.evidence_projection:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
