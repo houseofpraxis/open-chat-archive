@@ -14,7 +14,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Import one local chat export into an immutable archive batch.")
     parser.add_argument("source", type=Path, metavar="SOURCE")
     parser.add_argument("archive_root", type=Path, metavar="ARCHIVE_ROOT")
-    parser.add_argument("--format", required=True, choices=("claude-ai", "claude-code", "open-webui", "codex", "grok-build"))
+    parser.add_argument("--format", required=True, choices=("claude-ai", "claude-code", "open-webui", "codex", "grok-build", "pi-v3"))
     parser.add_argument("--source-scope-id", required=True)
     parser.add_argument("--archive-id", required=True)
     parser.add_argument("--batch-id", required=True)
