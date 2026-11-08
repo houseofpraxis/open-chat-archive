@@ -6,6 +6,7 @@ from .claude_code import ClaudeCodeAdapter
 from .open_webui import OpenWebUIAdapter
 from .codex import CodexAdapter
 from .grok import GrokBuildAdapter
+from .pi import PiV3Adapter
 
 ADAPTERS = {
     "claude-ai": ClaudeAIAdapter,
@@ -13,6 +14,7 @@ ADAPTERS = {
     "open-webui": OpenWebUIAdapter,
     "codex": CodexAdapter,
     "grok-build": GrokBuildAdapter,
+    "pi-v3": PiV3Adapter,
 }
 
 
@@ -23,4 +25,4 @@ def create_adapter(format_name: str, source_scope_id: str):
         raise ValueError("UNKNOWN_FORMAT") from exc
 
 
-__all__ = ["ADAPTERS", "ClaudeAIAdapter", "ClaudeCodeAdapter", "OpenWebUIAdapter", "CodexAdapter", "GrokBuildAdapter", "create_adapter"]
+__all__ = ["ADAPTERS", "ClaudeAIAdapter", "ClaudeCodeAdapter", "OpenWebUIAdapter", "CodexAdapter", "GrokBuildAdapter", "PiV3Adapter", "create_adapter"]

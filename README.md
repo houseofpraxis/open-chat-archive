@@ -41,7 +41,7 @@ after that validation succeeds, then derives search text and citations while
 preserving the full canonical records. Neither operation modifies the source
 archive. See [evidence projection details](docs/evidence-projection.md).
 
-The initial explicit-format local adapters are [Claude.ai](docs/adapters/claude-ai.md), [Claude Code](docs/adapters/claude-code.md), [OpenWebUI](docs/adapters/open-webui.md), [Codex rollout JSONL](docs/adapters/codex.md), and [Grok Build updates.jsonl](docs/adapters/grok-build.md). Their documented mappings are synthetic baselines and are not claims of authorized real-export compatibility.
+The initial explicit-format local adapters are [Claude.ai](docs/adapters/claude-ai.md), [Claude Code](docs/adapters/claude-code.md), [OpenWebUI](docs/adapters/open-webui.md), [Codex rollout JSONL](docs/adapters/codex.md), [Grok Build updates.jsonl](docs/adapters/grok-build.md), and [Pi v3 sessions](docs/adapters/pi.md). Their documented mappings are synthetic baselines and are not claims of authorized real-export compatibility.
 
 The non-normative [experimental archive inspector](docs/inspector.md) builds local, owner-only static artifacts from canonical archives so the format can be reviewed as a consumer would use it. The [MVP plan](docs/inspector-mvp-plan.md) is the design record and does not expand the Tier 1 contract.
 
