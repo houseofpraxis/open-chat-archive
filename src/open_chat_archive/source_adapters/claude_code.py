@@ -7,7 +7,7 @@ from typing import Any
 from ..adapter import BatchResult, FingerprintResult
 from ..batch_writer import BatchWriter, read_regular, reject
 from ..projection import canonical_datetime, canonical_model
-from ..strictjson import StrictJSONError, load_ndjson
+from ..strictjson import SourceJSONNumber, StrictJSONError, load_source_ndjson
 
 
 class ClaudeCodeAdapter:
@@ -50,10 +50,12 @@ class ClaudeCodeAdapter:
                 parts.append({"type": "reasoning" if kind in {"thinking", "reasoning"} else "text", "text": text})
             elif kind == "tool_use":
                 if not all(isinstance(block.get(key), str) and block[key] for key in ("id", "name")) or "input" not in block: reject("CLAUDE_CODE_TOOL")
+                if not ClaudeCodeAdapter._canonical_safe(block["input"]): reject("CLAUDE_CODE_TOOL")
                 calls.append({"call_id": block["id"], "name": block["name"], "input": block["input"]})
             elif kind == "tool_result":
                 call_id = block.get("tool_use_id")
                 if not isinstance(call_id, str) or not call_id or "content" not in block: reject("CLAUDE_CODE_TOOL")
+                if not ClaudeCodeAdapter._canonical_safe(block["content"]): reject("CLAUDE_CODE_TOOL")
                 calls.append({"result": True, "call_id": call_id, "content": block["content"], "error": block.get("is_error") is True})
         return parts, calls, tool_result_only
 
@@ -63,9 +65,17 @@ class ClaudeCodeAdapter:
         if all(part["type"] == "reasoning" for part in parts): return "exported_reasoning"
         return "unknown"
 
+    @staticmethod
+    def _canonical_safe(value: Any) -> bool:
+        if isinstance(value, (SourceJSONNumber, float)): return False
+        if value is None or isinstance(value, (str, bool, int)): return True
+        if isinstance(value, list): return all(ClaudeCodeAdapter._canonical_safe(child) for child in value)
+        if isinstance(value, dict): return all(ClaudeCodeAdapter._canonical_safe(child) for child in value.values())
+        return False
+
     def conform(self, source: Path, archive_root: Path, *, archive_id: str, batch_id: str) -> BatchResult:
         raw = read_regular(source)
-        try: entries = load_ndjson(raw)
+        try: entries = load_source_ndjson(raw)
         except StrictJSONError: reject("CLAUDE_CODE_JSONL")
         if not entries: reject("CLAUDE_CODE_EMPTY")
         session_ids: set[str] = set()
