@@ -45,7 +45,8 @@ _EVENT_TYPES = frozenset({
     "collab_resume_begin", "collab_resume_end", "sub_agent_activity",
 })
 _TOP_TYPES = frozenset({"session_meta", "response_item", "inter_agent_communication",
-    "inter_agent_communication_metadata", "compacted", "turn_context", "world_state", "event_msg"})
+    "inter_agent_communication_metadata", "compacted", "turn_context", "world_state", "event_msg",
+    "token_usage_record"})
 _TIMING = ("started_at", "completed_at", "duration_ms", "time_to_first_token_ms")
 
 
@@ -112,6 +113,8 @@ class CodexAdapter:
     @staticmethod
     def _payload(entry: dict[str, Any], top: str) -> dict[str, Any]:
         raw_payload = entry.get("payload")
+        if top == "token_usage_record" and "payload" not in entry:
+            return {}
         if not isinstance(raw_payload, dict): reject("CODEX_PAYLOAD")
         payload: dict[str, Any] = dict(raw_payload)
         if top == "response_item":
@@ -412,4 +415,15 @@ class CodexAdapter:
                     if not _string(call_id) or not _string(name) or "arguments" not in payload: reject("CODEX_TOOL")
                     extra = {"source_namespace": payload["namespace"]} if _string(payload.get("namespace")) else None
                     add_tool(entry, ordinal, f"dynamic-request:{call_id}", call_id, name, arguments, extra=extra)
+            elif top == "token_usage_record":
+                usage = payload.get("usage")
+                if usage is not None:
+                    mapped = self._usage(usage)
+                    if mapped:
+                        response_id = payload.get("response_id")
+                        if response_id is not None and not _string(response_id): reject("CODEX_USAGE")
+                        key = f"token-usage:{response_id}" if response_id else f"token-usage:{ordinal}"
+                        records.append(self._event(writer, session, ordinal, key, "usage", mapped,
+                            correlation=response_id, extensions=self._extensions(entry, {"response_id": response_id} if response_id else None),
+                            fallback=not bool(response_id)))
         return writer.write(records)
